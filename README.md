@@ -52,19 +52,9 @@ Layout code doesn't need to change to update content.
 
 ## Hosting (Netlify)
 
-Netlify's free plan won't build private repos owned by an organisation, so the site is built
-on GitHub by `.github/workflows/deploy-netlify.yml` and uploaded to Netlify.
-Pushes to `main` go live; pull requests get their own preview link.
-
-One-time setup:
-
-1. Create the Netlify site by drag-and-drop: run `npm run build` and drop the `dist/` folder
-   (or a zip of its contents) on https://app.netlify.com/drop. Don't link the site to the Git repo.
-2. In Netlify, copy the site's **Project ID** (Site configuration → General) and create a
-   **personal access token** (User settings → Applications).
-3. In GitHub, add both as repository secrets (Settings → Secrets and variables → Actions):
-   `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN`.
-4. Re-run the "Deploy to Netlify" workflow from the Actions tab, or push a commit.
+The site deploys from GitHub through Netlify's Git integration. Build settings are in
+`netlify.toml` (`npm run build`, publish `dist`, Node 22). Every push to `main` redeploys,
+and pull requests get their own Deploy Preview link.
 
 The `dist/` folder is a plain static site, so any static host works too.
 
