@@ -1,0 +1,452 @@
+<title>AgriGuard Home Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,800;0,900;1,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: harvest-to-market story. Hero with the emblem, then the supply chain
+   (farm → store → deliver) as the spine, product lines, buyers, farmer CTA, contact.
+   Signature: the striped field rows from the logo, used as section dividers.
+   Single light theme on purpose: this is the client's public website. */
+:root {
+  --green-900: #12401A;   /* deep logo green: headings, footer */
+  --green-700: #1E5B1E;
+  --leaf: #5FA82E;        /* leaf green: buttons, accents */
+  --leaf-soft: #E7F1DA;   /* field tint */
+  --gold: #E3A82B;        /* harvest gold: highlights */
+  --gold-soft: #FBF0D6;
+  --paper: #F8F9F3;       /* page ground, faint green bias */
+  --white: #FFFFFF;
+  --ink: #18261A;
+  --ink-2: #4A5A4C;
+  --line: #D9E2CF;
+  --wa: #1FA855;          /* WhatsApp button */
+  --font-display: "Archivo", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Figtree", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --step--1: 0.875rem; --step-0: 1rem; --step-1: 1.2rem; --step-2: 1.5rem;
+  --step-3: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem);
+  --step-4: clamp(2.2rem, 1.5rem + 3vw, 3.6rem);
+  --radius: 14px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--green-900); line-height: 1.1; margin: 0; text-wrap: balance; }
+h1 { font-size: var(--step-4); font-weight: 900; letter-spacing: -0.02em; }
+h2 { font-size: var(--step-3); font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: var(--step-1); font-weight: 800; }
+p { margin: 0; }
+a { color: var(--green-700); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-family: var(--font-display); font-weight: 700; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--leaf); }
+.lede { font-size: var(--step-1); color: var(--ink-2); max-width: 60ch; }
+.section { padding-block: clamp(56px, 8vw, 96px); }
+.section-head { display: grid; gap: 12px; margin-bottom: 36px; max-width: 680px; }
+
+/* placeholder marker */
+.tbc { background: var(--gold-soft); border-bottom: 2px dotted var(--gold); padding: 0 3px; border-radius: 3px; }
+.mock-bar { background: var(--green-900); color: #F3F7EC; font-size: var(--step--1); }
+.mock-bar .wrap { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; padding-block: 8px; }
+.mock-bar b { color: var(--gold); }
+.mock-bar .tbc { background: rgba(227,168,43,.25); color: #FFF4D8; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: var(--step-0); text-decoration: none; padding: 14px 22px; border-radius: 999px; border: 2px solid transparent; transition: transform .15s ease, background .15s ease; cursor: pointer; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--green-700); color: var(--white); }
+.btn-primary:hover { background: var(--green-900); }
+.btn-wa { background: var(--wa); color: var(--white); }
+.btn-ghost { border-color: var(--green-700); color: var(--green-700); background: transparent; }
+.btn-gold { background: var(--gold); color: var(--green-900); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+
+/* header */
+header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(248,249,243,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--paper); }
+.nav { display: flex; align-items: center; gap: 24px; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { height: 46px; width: auto; }
+.brand-name { font-family: var(--font-display); font-weight: 900; font-size: 1.35rem; color: var(--green-900); line-height: 1; }
+.brand-name small { display: block; font-size: .58rem; letter-spacing: .38em; font-weight: 800; color: var(--green-700); margin-top: 4px; }
+.nav-links { display: flex; gap: 26px; margin-left: auto; list-style: none; padding: 0; margin-block: 0; }
+.nav-links a { text-decoration: none; font-weight: 600; color: var(--ink); padding-block: 6px; border-bottom: 2px solid transparent; }
+.nav-links a[aria-current="page"], .nav-links a:hover { border-color: var(--gold); color: var(--green-900); }
+.nav .btn { padding: 10px 18px; font-size: var(--step--1); }
+.menu-btn { display: none; margin-left: auto; background: none; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; color: var(--green-900); }
+@media (max-width: 860px) {
+  .nav-links, .nav .btn-wa { display: none; }
+  .menu-btn { display: inline-flex; }
+  .nav.open { flex-wrap: wrap; }
+  .nav.open .nav-links { display: flex; flex-direction: column; gap: 4px; width: 100%; order: 3; padding-bottom: 12px; }
+}
+
+/* hero */
+.hero { position: relative; overflow: hidden; background:
+  radial-gradient(900px 420px at 85% 10%, var(--gold-soft), transparent 60%),
+  linear-gradient(180deg, var(--paper), var(--leaf-soft)); }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding-block: clamp(48px, 7vw, 88px) clamp(80px, 9vw, 120px); }
+.hero-copy { display: grid; gap: 22px; min-width: 0; }
+.hero h1 em { font-style: italic; color: var(--leaf); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--ink-2); font-weight: 600; font-size: var(--step--1); padding: 0; margin: 0; list-style: none; }
+.hero-tags li { display: flex; align-items: center; gap: 8px; }
+.hero-tags li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.hero-visual { position: relative; min-width: 0; }
+.hero-visual .emblem { width: 100%; max-width: 520px; display: block; margin-inline: auto; filter: drop-shadow(0 18px 30px rgba(18,64,26,.18)); }
+.hero-visual::before { content: ""; position: absolute; inset: 8% 4% 18%; border-radius: 50%; border-top: 6px solid var(--gold); transform: rotate(-8deg); opacity: .7; }
+.fields { position: absolute; left: -5%; right: -5%; bottom: -1px; height: 70px; background:
+  repeating-linear-gradient(100deg, var(--green-700) 0 34px, var(--leaf) 34px 68px);
+  clip-path: ellipse(70% 100% at 50% 100%); }
+
+/* supply chain */
+.chain { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; counter-reset: step; position: relative; }
+.chain li { list-style: none; position: relative; padding: 28px 22px 28px 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.chain li::after { content: ""; position: absolute; top: 52px; left: 72px; right: 14px; border-top: 3px dashed var(--line); }
+.chain li:last-child::after { display: none; }
+.chain .ico { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: var(--leaf-soft); color: var(--green-700); position: relative; z-index: 1; }
+.chain .ico svg { width: 34px; height: 34px; }
+.chain .num { font-family: var(--font-display); font-weight: 800; font-size: var(--step--1); color: var(--gold); letter-spacing: .1em; }
+.chain p { color: var(--ink-2); }
+.chain-wrap { padding: 0; margin: 0; }
+@media (max-width: 860px) { .chain { grid-template-columns: 1fr 1fr; } .chain li::after { display: none; } }
+@media (max-width: 520px) { .chain { grid-template-columns: 1fr; } .chain li { padding-right: 0; grid-template-columns: 64px 1fr; column-gap: 16px; } .chain li > :not(.ico) { grid-column: 2; } .chain .ico { grid-row: span 3; } }
+
+/* products */
+.products { background: var(--white); border-block: 1px solid var(--line); }
+.prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.prod { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: grid; grid-template-rows: auto 1fr; background: var(--paper); min-width: 0; }
+.prod-body { padding: 26px; display: grid; gap: 16px; align-content: start; }
+.prod-body h3 { font-size: var(--step-2); }
+.items { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.items li { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.items li span:first-child { font-weight: 600; }
+.items li span:last-child { color: var(--ink-2); font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+.prod .btn { justify-self: start; }
+@media (max-width: 760px) { .prod-grid { grid-template-columns: 1fr; } }
+
+/* photo placeholder */
+.photo { position: relative; aspect-ratio: 16 / 9; max-width: 100%; display: grid; place-items: center; text-align: center; color: var(--green-700); background:
+  repeating-linear-gradient(135deg, rgba(95,168,46,.10) 0 14px, transparent 14px 28px), var(--leaf-soft); }
+.photo.gold { background: repeating-linear-gradient(135deg, rgba(227,168,43,.16) 0 14px, transparent 14px 28px), var(--gold-soft); color: #7A5410; }
+.photo div { display: grid; gap: 6px; justify-items: center; padding: 16px; font-size: var(--step--1); font-weight: 600; }
+.photo svg { width: 30px; height: 30px; opacity: .8; }
+.photo small { font-weight: 500; opacity: .8; }
+
+/* why us */
+.why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.why div { display: grid; gap: 8px; align-content: start; padding-top: 18px; border-top: 3px solid var(--green-700); min-width: 0; }
+.why div:nth-child(2n) { border-color: var(--gold); }
+.why p { color: var(--ink-2); }
+@media (max-width: 860px) { .why { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .why { grid-template-columns: 1fr; } }
+
+/* buyers */
+.buyers { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.buyers li { padding: 10px 18px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-weight: 600; }
+
+/* farmer band */
+.farmer { background: var(--green-900); color: #E8F0E0; position: relative; overflow: hidden; }
+.farmer::after { content: ""; position: absolute; right: -60px; top: -40px; bottom: -40px; width: 38%; background: repeating-linear-gradient(100deg, rgba(95,168,46,.35) 0 26px, transparent 26px 52px); transform: skewX(-8deg); }
+.farmer-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; position: relative; z-index: 1; }
+.farmer h2 { color: var(--white); }
+.farmer .eyebrow { color: var(--gold); }
+.farmer p { color: #CFDDC6; }
+.farmer-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.farmer-list li { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); padding: 14px 16px; border-radius: 12px; }
+.farmer-list li::before { content: "✓"; color: var(--gold); font-weight: 900; }
+@media (max-width: 760px) { .farmer-grid { grid-template-columns: 1fr; } .farmer::after { width: 70%; opacity: .5; } }
+
+/* founder */
+.founder { display: grid; grid-template-columns: 300px 1fr; gap: 44px; align-items: center; }
+.founder .photo { aspect-ratio: 4 / 5; border-radius: var(--radius); }
+.founder blockquote { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: var(--step-2); line-height: 1.3; color: var(--green-900); text-wrap: balance; }
+.founder blockquote::before { content: "“"; display: block; font-size: 4rem; line-height: .6; color: var(--gold); }
+.founder cite { display: block; margin-top: 18px; font-style: normal; color: var(--ink-2); }
+.founder cite b { color: var(--ink); }
+@media (max-width: 760px) { .founder { grid-template-columns: 1fr; } .founder .photo { max-width: 260px; } }
+
+/* social */
+.social { background: var(--leaf-soft); }
+.social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.social-grid .photo { aspect-ratio: 1; border-radius: 10px; }
+.social-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 24px; }
+@media (max-width: 640px) { .social-grid { grid-template-columns: 1fr 1fr; } }
+
+/* contact cta */
+.contact-cta { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 20px; padding: clamp(24px, 4vw, 44px); }
+.contact-cta .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 760px) { .contact-cta { grid-template-columns: 1fr; } }
+
+/* footer */
+footer { background: var(--green-900); color: #CFDDC6; font-size: var(--step--1); }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; padding-block: 56px 32px; }
+.foot-grid > div { min-width: 0; }
+footer h4 { font-family: var(--font-display); color: var(--white); margin: 0 0 12px; font-size: var(--step-0); }
+footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+footer a { color: #E8F0E0; text-decoration: none; }
+footer a:hover { color: var(--gold); }
+.foot-brand { font-family: var(--font-display); font-weight: 900; font-size: 1.5rem; color: var(--white); }
+.foot-tag { font-family: var(--font-display); font-style: italic; font-weight: 700; color: var(--gold); margin: 6px 0 12px; }
+.foot-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-block: 18px; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+footer .tbc { background: rgba(227,168,43,.22); color: #FFF4D8; }
+@media (max-width: 860px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
+
+/* floating whatsapp */
+.wa-float { position: fixed; z-index: 40; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; background: var(--wa); color: var(--white); text-decoration: none; font-weight: 700; padding: 12px 18px 12px 14px; border-radius: 999px; box-shadow: 0 10px 24px rgba(18,64,26,.3); }
+.wa-float svg { width: 26px; height: 26px; }
+@media (max-width: 520px) { .wa-float span { display: none; } .wa-float { padding: 14px; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 7h3l2-2.5h6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<div class="mock-bar">
+  <div class="wrap">
+    <span><b>Design mockup.</b> Text marked <span class="tbc">like this</span> is placeholder for AgriGuard to confirm. Striped boxes are where real photos go.</span>
+    <span>Home page · draft 1</span>
+  </div>
+</div>
+
+<header class="site">
+  <nav class="nav wrap" id="nav" aria-label="Main">
+    <a class="brand" href="#top" aria-label="AgriGuard Solutions home">
+      <img src="{{LOGO}}" alt="">
+      <span class="brand-name">AgriGuard<small>SOLUTIONS</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#top" aria-current="page">Home</a></li>
+      <li><a href="#how">About Us</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-wa" href="https://wa.me/?text=Hello%20AgriGuard%2C%20I%27d%20like%20to%20place%20an%20order." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Order on WhatsApp</a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Grain aggregation · Guinea fowl farming</span>
+        <h1>Building a food secure future, <em>one harvest at a time.</em></h1>
+        <p class="lede">We buy grain from smallholder farmers, clean and store it properly, and deliver it to buyers on time. We also raise healthy guinea fowl for homes, restaurants and events.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#products">See our products <svg><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="https://wa.me/?text=Hello%20AgriGuard%2C%20I%27d%20like%20to%20ask%20about%20prices." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Ask for prices</a>
+        </div>
+        <ul class="hero-tags">
+          <li>Cleaned &amp; graded grain</li>
+          <li>Bulk &amp; small orders</li>
+          <li>Delivery in <span class="tbc">[region / city]</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <img class="emblem" src="{{LOGO}}" alt="AgriGuard emblem: maize, soybeans, grain silos and a delivery truck over green fields">
+      </div>
+    </div>
+    <div class="fields" aria-hidden="true"></div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How we work</span>
+        <h2>From the farm gate to your store</h2>
+        <p class="lede">We handle every step between the farmer and the buyer, so you get grain you can rely on.</p>
+      </div>
+      <ol class="chain chain-wrap">
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 9c0-3 2-5 5-5 0 3-2 5-5 5zM12 13c0-3-2-5-5-5 0 3 2 5 5 5zM12 17c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M4 21h16"/></svg></span>
+          <span class="num">STEP 1</span>
+          <h3>Buy from farmers</h3>
+          <p>We buy maize, soybeans and other grains directly from smallholder farmers in <span class="tbc">[districts]</span> and pay fair, prompt prices.</p>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l4-3 4 3v11"/><path d="M12 20V9l4-3 4 3v11"/><path d="M2 20h20M4 13h8M12 13h8"/></svg></span>
+          <span class="num">STEP 2</span>
+          <h3>Clean &amp; grade</h3>
+          <p>Every batch is dried, cleaned and checked for moisture and quality before it goes into storage.</p>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M3 7l9-4 9 4M8 20v-6h8v6"/></svg></span>
+          <span class="num">STEP 3</span>
+          <h3>Store safely</h3>
+          <p>Grain is bagged and kept in a secure, dry warehouse to protect it from pests and spoilage.</p>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12v10H2zM14 9h4l3 3v4h-7"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+          <span class="num">STEP 4</span>
+          <h3>Deliver to buyers</h3>
+          <p>We supply processors, feed mills, schools and traders, in bulk or by the bag, when they need it.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section products" id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we sell</span>
+        <h2>Two product lines, one standard of quality</h2>
+      </div>
+      <div class="prod-grid">
+        <article class="prod">
+          <div class="photo"><div><svg><use href="#i-cam"/></svg>Photo: bagged grain in the warehouse<small>Client to supply</small></div></div>
+          <div class="prod-body">
+            <h3>Grains</h3>
+            <p>Clean, dry grain for food processing, animal feed and resale.</p>
+            <ul class="items">
+              <li><span>Maize (white &amp; yellow)</span><span class="tbc">50 kg / 100 kg bags</span></li>
+              <li><span>Soybeans</span><span class="tbc">50 kg / 100 kg bags</span></li>
+              <li><span class="tbc">Sorghum / millet / rice?</span><span class="tbc">to confirm</span></li>
+            </ul>
+            <a class="btn btn-wa" href="https://wa.me/?text=Hello%20AgriGuard%2C%20I%27d%20like%20a%20quote%20for%20grain." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Get a grain quote</a>
+          </div>
+        </article>
+        <article class="prod">
+          <div class="photo gold"><div><svg><use href="#i-cam"/></svg>Photo: guinea fowl on the farm<small>Client to supply</small></div></div>
+          <div class="prod-body">
+            <h3>Guinea Fowl</h3>
+            <p>Healthy, farm-raised guinea fowl. Lean, flavourful and in demand for every occasion.</p>
+            <ul class="items">
+              <li><span>Live birds</span><span class="tbc">per bird / bulk</span></li>
+              <li><span>Dressed birds</span><span class="tbc">to confirm</span></li>
+              <li><span>Eggs &amp; keets</span><span class="tbc">to confirm</span></li>
+            </ul>
+            <a class="btn btn-wa" href="https://wa.me/?text=Hello%20AgriGuard%2C%20I%27d%20like%20to%20order%20guinea%20fowl." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Order guinea fowl</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why AgriGuard</span>
+        <h2>Grain you can count on</h2>
+      </div>
+      <div class="why">
+        <div><h3>Consistent quality</h3><p>Every batch is cleaned, graded and moisture-checked before sale.</p></div>
+        <div><h3>Reliable supply</h3><p>Stored stock means we can fill orders between harvests.</p></div>
+        <div><h3>Fair to farmers</h3><p>We pay fair prices and support the farmers we buy from.</p></div>
+        <div><h3>Easy ordering</h3><p>Message us on WhatsApp, agree a price and we arrange delivery.</p></div>
+      </div>
+      <div style="margin-top:44px; display:grid; gap:14px">
+        <span class="eyebrow">Who we supply</span>
+        <ul class="buyers">
+          <li>Food processors</li><li>Feed mills &amp; poultry farms</li><li>Schools &amp; institutions</li><li>Caterers &amp; restaurants</li><li>Traders &amp; retailers</li><li>Households</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section farmer">
+    <div class="wrap farmer-grid">
+      <div style="display:grid; gap:16px">
+        <span class="eyebrow">For farmers</span>
+        <h2>Grow grain? Sell your harvest to us.</h2>
+        <p>We buy from smallholder farmers across <span class="tbc" style="background:rgba(227,168,43,.25);color:#FFF4D8">[region]</span>. Get a fair price, prompt payment, and a buyer you can rely on every season.</p>
+        <div><a class="btn btn-gold" href="https://wa.me/?text=Hello%20AgriGuard%2C%20I%27m%20a%20farmer%20and%20I%27d%20like%20to%20sell%20my%20grain." target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Talk to us about selling</a></div>
+      </div>
+      <ul class="farmer-list">
+        <li>Fair, transparent prices by weight and grade</li>
+        <li>Prompt payment, including mobile money</li>
+        <li>Pick-up from your community <span class="tbc" style="background:rgba(227,168,43,.25);color:#FFF4D8">(to confirm)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap founder">
+      <div class="photo"><div><svg><use href="#i-cam"/></svg>Portrait: Victoria Ndebugri<small>Client to supply</small></div></div>
+      <div>
+        <span class="eyebrow">Our story</span>
+        <blockquote style="margin-top:14px"><span class="tbc">I started AgriGuard because too much of our harvest is lost after it leaves the farm. When grain is stored and moved well, farmers earn more and families eat better.</span></blockquote>
+        <cite><b>Victoria Wintonya Ndebugri</b>, Founder</cite>
+        <p style="margin-top:22px"><a class="btn btn-ghost" href="#how">Read our story <svg><use href="#i-arrow"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section social">
+    <div class="wrap">
+      <div class="social-head">
+        <div style="display:grid; gap:10px">
+          <span class="eyebrow">Follow us</span>
+          <h2>From our farm and warehouse</h2>
+        </div>
+        <span class="tbc">@agriguardsolutions (accounts to be created)</span>
+      </div>
+      <div class="social-grid">
+        <div class="photo"><div><svg><use href="#i-cam"/></svg>Instagram post</div></div>
+        <div class="photo gold"><div><svg><use href="#i-cam"/></svg>Instagram post</div></div>
+        <div class="photo"><div><svg><use href="#i-cam"/></svg>Instagram post</div></div>
+        <div class="photo gold"><div><svg><use href="#i-cam"/></svg>Instagram post</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact-cta">
+        <div style="display:grid; gap:10px">
+          <h2>Ready to order or partner with us?</h2>
+          <p class="lede">Send us a message with what you need and the quantity. We usually reply within <span class="tbc">a few hours</span>.</p>
+        </div>
+        <div class="btns">
+          <a class="btn btn-wa" href="https://wa.me/?text=Hello%20AgriGuard%21" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp us</a>
+          <a class="btn btn-ghost" href="#contact">Contact page</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-brand">AgriGuard Solutions</div>
+      <div class="foot-tag">Building a Food Secure Future</div>
+      <p>Grain aggregation and guinea fowl production, connecting farmers to reliable markets.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul><li><a href="#top">Home</a></li><li><a href="#how">About Us</a></li><li><a href="#products">Products</a></li><li><a href="#contact">Contact</a></li></ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul><li><span class="tbc">+233 XX XXX XXXX</span></li><li><span class="tbc">hello@agriguard…</span></li><li><span class="tbc">Office address, town</span></li></ul>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <ul><li><span class="tbc">Facebook</span></li><li><span class="tbc">Instagram</span></li><li><span class="tbc">LinkedIn</span></li></ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2027 AgriGuard Solutions. All rights reserved.</span>
+    <span>Website by Mos EdTech</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/?text=Hello%20AgriGuard%21" target="_blank" rel="noopener" aria-label="Chat with AgriGuard on WhatsApp"><svg><use href="#i-wa"/></svg><span>Chat with us</span></a>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const nav = document.getElementById('nav');
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  nav.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false');
+  }));
+</script>

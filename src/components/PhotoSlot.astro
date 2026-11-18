@@ -1,0 +1,28 @@
+---
+/**
+ * A photo, or a labelled placeholder until the client supplies one.
+ * Put real photos in /public/images and pass `src` + `alt`.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  label: string;
+  src?: string;
+  alt?: string;
+  tone?: 'green' | 'gold';
+  ratio?: string;
+  class?: string;
+}
+const { label, src, alt, tone = 'green', ratio = '16 / 9', class: cls } = Astro.props;
+---
+{src ? (
+  <img class:list={['photo-img', cls]} src={src} alt={alt ?? label} loading="lazy" style={`aspect-ratio:${ratio}`} />
+) : (
+  <div class:list={['photo', tone, cls]} style={`aspect-ratio:${ratio}`} role="img" aria-label={`Photo coming soon: ${label}`} data-tbc={`Photo: ${label}`}>
+    <div>
+      <Icon name="camera" />
+      <span>Photo: {label}</span>
+      <small>Client to supply</small>
+    </div>
+  </div>
+)}

@@ -1,0 +1,105 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import PhotoSlot from '@/components/PhotoSlot.astro';
+import Tbc from '@/components/Tbc.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import FarmerBand from '@/components/FarmerBand.astro';
+import CtaPanel from '@/components/CtaPanel.astro';
+import { productLines, services, orderSteps, faqs, buyers } from '@/data/site';
+---
+<Base title="Products & Services" description="Cleaned and graded maize, soybeans and other grains in bulk or by the bag, plus farm-raised guinea fowl. Order from AgriGuard Solutions on WhatsApp.">
+  <PageHero
+    eyebrow="Products & services"
+    title="Quality grain and farm-raised guinea fowl"
+    lede="Order by the bag or set up a regular bulk supply. Prices change with the season, so message us for today's price."
+  >
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#grains">Grains</a>
+      <a class="btn btn-ghost" href="#guinea-fowl">Guinea fowl</a>
+      <a class="btn btn-ghost" href="#services">Services</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      {productLines.map((line, i) => (
+        <article class:list={['line', { flip: i % 2 === 1 }]} id={line.id}>
+          <div class="line-media">
+            <PhotoSlot label={line.photo.label} src={line.photo.src} alt={line.photo.alt} tone={line.tone} ratio="4 / 3" />
+          </div>
+          <div class="line-body">
+            <span class="eyebrow">{line.id === 'grains' ? 'Grain aggregation' : 'Poultry'}</span>
+            <h2>{line.name}</h2>
+            <p class="lede"><Tbc text={line.description} /></p>
+            <ul class="items">
+              {line.items.map((item) => (
+                <li>
+                  <span class="name"><Tbc text={item.name} /></span>
+                  <span class="detail"><Tbc text={item.detail} /></span>
+                  {item.description && <span class="desc"><Tbc text={item.description} /></span>}
+                </li>
+              ))}
+            </ul>
+            <div class="btn-row">
+              <WhatsAppButton message={line.cta.message}>{line.cta.label}</WhatsAppButton>
+              <a class="btn btn-ghost" href="/contact/">Send an enquiry</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section white" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Services</span>
+        <h2>More than a seller: your grain supply partner</h2>
+        <p class="lede">For businesses and institutions that need steady volumes of quality grain.</p>
+      </div>
+      <div class="ruled">
+        {services.map((s) => <div><h3>{s.title}</h3><p>{s.body}</p></div>)}
+      </div>
+      <div class="stack" style="margin-top:44px">
+        <span class="eyebrow">Who we supply</span>
+        <ul class="pills">{buyers.map((b) => <li>{b}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how-to-order">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How to order</span>
+        <h2>Four simple steps</h2>
+      </div>
+      <ol class="process">
+        {orderSteps.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <FarmerBand />
+
+  <section class="section" id="faq">
+    <div class="wrap split">
+      <div class="stack">
+        <span class="eyebrow">Questions</span>
+        <h2>Frequently asked questions</h2>
+        <p class="lede">Can't find your answer? Message us on WhatsApp and we will help.</p>
+        <PhotoSlot label="Grain being loaded for delivery" tone="gold" ratio="4 / 3" />
+      </div>
+      <div class="faq">
+        {faqs.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p><Tbc text={f.a} /></p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaPanel title="Need a quote?" body="Tell us the product, the quantity and where you are. We will reply with today's price and a delivery date." />
+</Base>

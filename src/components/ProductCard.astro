@@ -1,0 +1,27 @@
+---
+import PhotoSlot from './PhotoSlot.astro';
+import Tbc from './Tbc.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import type { ProductLine } from '@/data/site';
+
+interface Props {
+  line: ProductLine;
+}
+const { line } = Astro.props;
+---
+<article class="prod" id={`card-${line.id}`}>
+  <PhotoSlot label={line.photo.label} src={line.photo.src} alt={line.photo.alt} tone={line.tone} />
+  <div class="prod-body">
+    <h3>{line.name}</h3>
+    <p>{line.summary}</p>
+    <ul class="items">
+      {line.items.map((item) => (
+        <li><span class="name"><Tbc text={item.name} /></span><span class="detail"><Tbc text={item.detail} /></span></li>
+      ))}
+    </ul>
+    <div class="btn-row">
+      <WhatsAppButton message={line.cta.message}>{line.cta.label}</WhatsAppButton>
+      <a class="btn btn-ghost" href={`/products/#${line.id}`}>Details</a>
+    </div>
+  </div>
+</article>

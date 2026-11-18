@@ -1,0 +1,21 @@
+{
+  "name": "agriguard-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AgriGuard Solutions website: grain aggregation and guinea fowl production.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.9.3"
+  }
+}

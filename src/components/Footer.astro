@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import Tbc from './Tbc.astro';
+import { site } from '@/data/site';
+import { waLink } from '@/lib/whatsapp';
+
+const year = new Date().getFullYear();
+const socialIcon = { Facebook: 'facebook', Instagram: 'instagram', LinkedIn: 'linkedin' } as const;
+---
+<footer class="site-footer">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-brand">{site.name}</div>
+      <div class="foot-tag">{site.tagline}</div>
+      <p>Grain aggregation and guinea fowl production, connecting farmers to reliable markets.</p>
+    </div>
+    <div>
+      <h2 class="foot-h">Explore</h2>
+      <ul>{site.nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Contact</h2>
+      <ul class="foot-contact">
+        <li><Icon name="whatsapp" /><a href={waLink()} target="_blank" rel="noopener"><Tbc text={site.contact.phoneDisplay} /></a></li>
+        <li><Icon name="mail" /><Tbc text={site.contact.email} /></li>
+        <li><Icon name="pin" /><span><Tbc text={site.contact.address} /></span></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Follow us</h2>
+      <ul class="foot-social">
+        {site.social.map((s) => (
+          <li>
+            {s.url ? (
+              <a href={s.url} target="_blank" rel="noopener"><Icon name={socialIcon[s.name as keyof typeof socialIcon] ?? 'arrow'} />{s.name}</a>
+            ) : (
+              <span><Icon name={socialIcon[s.name as keyof typeof socialIcon] ?? 'arrow'} /><Tbc text={{ tbc: s.name, note: `${s.name} account to be created` }} /></span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© {year} {site.name}. All rights reserved.</span>
+    <span>Website by Mos EdTech</span>
+  </div>
+</footer>

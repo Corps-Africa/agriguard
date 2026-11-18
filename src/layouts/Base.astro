@@ -1,0 +1,79 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import { site } from '@/data/site';
+import { waLink } from '@/lib/whatsapp';
+
+interface Props {
+  /** Page title; the site name is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL('/images/og-image.jpg', site.url).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.name,
+  slogan: site.tagline,
+  description: site.description,
+  url: site.url,
+  logo: new URL('/images/logo-full.webp', site.url).href,
+  image: ogImage,
+  ...(site.contact.whatsapp ? { telephone: `+${site.contact.whatsapp}` } : {}),
+  sameAs: site.social.filter((s) => s.url).map((s) => s.url),
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {site.preview && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#12401A" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;0,900;1,700&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {site.preview && (
+      <div class="preview-bar">
+        <div class="wrap">
+          <span><b>Preview.</b> Text marked <span class="tbc">like this</span> is placeholder for AgriGuard to confirm. Striped boxes are where real photos go.</span>
+        </div>
+      </div>
+    )}
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <a class="wa-float" href={waLink()} target="_blank" rel="noopener" aria-label="Chat with AgriGuard on WhatsApp">
+      <Icon name="whatsapp" /><span>Chat with us</span>
+    </a>
+  </body>
+</html>

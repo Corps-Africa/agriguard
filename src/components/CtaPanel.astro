@@ -1,0 +1,28 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+
+interface Props {
+  title?: string;
+  body?: string;
+  showContactLink?: boolean;
+}
+const {
+  title = 'Ready to order or partner with us?',
+  body = 'Send us a message with what you need and the quantity. We usually reply within a few hours.',
+  showContactLink = true,
+} = Astro.props;
+---
+<section class="section tight">
+  <div class="wrap">
+    <div class="cta-panel">
+      <div>
+        <h2>{title}</h2>
+        <p class="lede">{body}</p>
+      </div>
+      <div class="btn-row">
+        <WhatsAppButton>WhatsApp us</WhatsAppButton>
+        {showContactLink && <a class="btn btn-ghost" href="/contact/">Contact page</a>}
+      </div>
+    </div>
+  </div>
+</section>

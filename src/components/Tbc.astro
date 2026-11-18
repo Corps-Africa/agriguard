@@ -1,0 +1,21 @@
+---
+/** Renders copy, highlighting placeholders while the site is in preview mode. */
+import { parts, isPlaceholder, type RichCopy } from '@/lib/copy';
+import { site } from '@/data/site';
+
+interface Props {
+  text: RichCopy;
+}
+const { text } = Astro.props;
+---
+{parts(text).map((p) =>
+  isPlaceholder(p) ? (
+    site.preview ? (
+      <span class="tbc" data-tbc={p.note ?? p.tbc} title={p.note ? `To confirm: ${p.note}` : 'To confirm'}>{p.tbc}</span>
+    ) : (
+      <span data-tbc={p.note ?? p.tbc}>{p.tbc}</span>
+    )
+  ) : (
+    p
+  )
+)}

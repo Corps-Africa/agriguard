@@ -1,0 +1,1 @@
+export type IconName = | 'whatsapp' | 'camera' | 'arrow' | 'sprout' | 'sieve' | 'warehouse' | 'truck' | 'phone' | 'mail' | 'pin' | 'clock' | 'check' | 'menu' | 'close' | 'facebook' | 'instagram' | 'linkedin';

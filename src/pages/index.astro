@@ -1,0 +1,116 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Tbc from '@/components/Tbc.astro';
+import PhotoSlot from '@/components/PhotoSlot.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import FarmerBand from '@/components/FarmerBand.astro';
+import CtaPanel from '@/components/CtaPanel.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import { site, supplyChain, productLines, reasons, buyers, founder } from '@/data/site';
+import { tbc } from '@/lib/copy';
+---
+<Base>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Grain aggregation · Guinea fowl farming</span>
+        <h1>Building a food secure future, <em>one harvest at a time.</em></h1>
+        <p class="lede">We buy grain from smallholder farmers, clean and store it properly, and deliver it to buyers on time. We also raise healthy guinea fowl for homes, restaurants and events.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/products/">See our products <Icon name="arrow" /></a>
+          <WhatsAppButton variant="ghost" message="Hello AgriGuard, I'd like to ask about prices.">Ask for prices</WhatsAppButton>
+        </div>
+        <ul class="hero-tags">
+          <li>Cleaned &amp; graded grain</li>
+          <li>Bulk &amp; small orders</li>
+          <li>Delivery in&nbsp;<Tbc text={site.contact.serviceArea} /></li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <img src="/images/logo-emblem.webp" width="360" height="208" fetchpriority="high"
+          alt="AgriGuard emblem: maize, soybeans, grain silos and a delivery truck over green fields" />
+      </div>
+    </div>
+    <div class="fields" aria-hidden="true"></div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How we work</span>
+        <h2>From the farm gate to your store</h2>
+        <p class="lede">We handle every step between the farmer and the buyer, so you get grain you can rely on.</p>
+      </div>
+      <ol class="chain">
+        {supplyChain.map((s, i) => (
+          <li>
+            <span class="ico"><Icon name={s.icon} /></span>
+            <span class="num">STEP {i + 1}</span>
+            <h3>{s.title}</h3>
+            <p><Tbc text={s.body} /></p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section white" id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we sell</span>
+        <h2>Two product lines, one standard of quality</h2>
+      </div>
+      <div class="prod-grid">
+        {productLines.map((line) => <ProductCard line={line} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why AgriGuard</span>
+        <h2>Grain you can count on</h2>
+      </div>
+      <div class="ruled">
+        {reasons.map((r) => <div><h3>{r.title}</h3><p>{r.body}</p></div>)}
+      </div>
+      <div class="stack" style="margin-top:44px">
+        <span class="eyebrow">Who we supply</span>
+        <ul class="pills">{buyers.map((b) => <li>{b}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <FarmerBand />
+
+  <section class="section">
+    <div class="wrap founder">
+      <PhotoSlot label={founder.photo.label} src={founder.photo.src} ratio="4 / 5" />
+      <div>
+        <span class="eyebrow">Our story</span>
+        <blockquote class="quote" style="margin-top:14px"><Tbc text={founder.quote} /></blockquote>
+        <span class="cite"><b>{founder.name}</b>, {founder.role}</span>
+        <p style="margin-top:22px"><a class="btn btn-ghost" href="/about/">Read our story <Icon name="arrow" /></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint">
+    <div class="wrap">
+      <div class="social-head">
+        <div class="stack" style="gap:10px">
+          <span class="eyebrow">Follow us</span>
+          <h2>From our farm and warehouse</h2>
+        </div>
+        <Tbc text={tbc('@agriguardsolutions', 'Social accounts to be created; a live feed goes here once they exist')} />
+      </div>
+      <div class="social-grid">
+        {[0, 1, 2, 3].map((i) => <PhotoSlot label="social post" tone={i % 2 ? 'gold' : 'green'} ratio="1 / 1" />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaPanel />
+</Base>

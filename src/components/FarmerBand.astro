@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import Tbc from './Tbc.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { farmerBenefits, site } from '@/data/site';
+---
+<section class="section farmer on-dark" id="farmers">
+  <div class="wrap farmer-grid">
+    <div class="stack">
+      <span class="eyebrow">For farmers</span>
+      <h2>Grow grain? Sell your harvest to us.</h2>
+      <p>We buy from smallholder farmers across <Tbc text={site.contact.serviceArea} />. Get a fair price, prompt payment, and a buyer you can rely on every season.</p>
+      <div>
+        <WhatsAppButton variant="gold" message="Hello AgriGuard, I'm a farmer and I'd like to sell my grain.">Talk to us about selling</WhatsAppButton>
+      </div>
+    </div>
+    <ul class="checks">
+      {farmerBenefits.map((b) => (
+        <li><Icon name="check" /><span><Tbc text={b} /></span></li>
+      ))}
+    </ul>
+  </div>
+</section>

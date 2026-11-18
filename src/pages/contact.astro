@@ -1,0 +1,108 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import Tbc from '@/components/Tbc.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import { site } from '@/data/site';
+import { waLink } from '@/lib/whatsapp';
+import { ENQUIRY_TYPES } from '@/scripts/contact-form';
+
+const c = site.contact;
+// Base wa.me link without text, so the form script can add the message.
+const waBase = waLink('').split('?')[0];
+---
+<Base title="Contact Us" description="Order grain or guinea fowl, set up a bulk supply, or sell your harvest to AgriGuard Solutions. Call, WhatsApp, email or visit us.">
+  <PageHero
+    eyebrow="Contact us"
+    title="Let's talk about your order"
+    lede="The fastest way to reach us is WhatsApp. You can also call, email, visit or send the form below."
+  >
+    <div><WhatsAppButton message="Hello AgriGuard!">Chat on WhatsApp</WhatsAppButton></div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack" style="gap:28px">
+        <div class="stack" style="gap:10px">
+          <span class="eyebrow">Reach us</span>
+          <h2>Contact details</h2>
+        </div>
+        <ul class="contact-list">
+          <li><span class="ico"><Icon name="whatsapp" /></span><div><span class="k">Phone &amp; WhatsApp</span><a class="v" href={waLink()} target="_blank" rel="noopener"><Tbc text={c.phoneDisplay} /></a></div></li>
+          <li><span class="ico"><Icon name="mail" /></span><div><span class="k">Email</span><span class="v"><Tbc text={c.email} /></span></div></li>
+          <li><span class="ico"><Icon name="pin" /></span><div><span class="k">Office &amp; warehouse</span><span class="v"><Tbc text={c.address} /></span></div></li>
+          <li><span class="ico"><Icon name="clock" /></span><div><span class="k">Opening hours</span><span class="v"><Tbc text={c.hours} /></span></div></li>
+          <li><span class="ico"><Icon name="truck" /></span><div><span class="k">We deliver to</span><span class="v"><Tbc text={c.serviceArea} /></span></div></li>
+        </ul>
+        <div class="map">
+          {c.mapEmbedUrl ? (
+            <iframe src={c.mapEmbedUrl} title={`Map showing ${site.name}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          ) : (
+            <div class="photo" style="aspect-ratio:16 / 10" role="img" aria-label="Map coming soon" data-tbc="Google Map embed">
+              <div><Icon name="pin" /><span>Google Map goes here</span><small>Needs the business address</small></div>
+            </div>
+          )}
+        </div>
+        {c.mapLink && <a class="btn btn-ghost" href={c.mapLink} target="_blank" rel="noopener">Get directions</a>}
+      </div>
+
+      <form class="form" data-contact-form data-endpoint={site.formEndpoint} data-wa={waBase} novalidate>
+        <div class="stack" style="gap:6px">
+          <h2 style="font-size:var(--step-2)">Send us a message</h2>
+          <p class="form-note">Fields marked optional can be left blank. We reply by phone or WhatsApp.</p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" autocomplete="name" required />
+            <span class="err" data-err="name" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone / WhatsApp</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+            <span class="err" data-err="phone" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-email">Email <span class="opt">(optional)</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" />
+            <span class="err" data-err="email" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-type">What is it about?</label>
+            <select id="f-type" name="type" required>
+              <option value="">Choose one</option>
+              {ENQUIRY_TYPES.map((t) => <option value={t}>{t}</option>)}
+            </select>
+            <span class="err" data-err="type" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-qty">Product &amp; quantity <span class="opt">(optional)</span></label>
+          <input id="f-qty" name="quantity" placeholder="e.g. 20 bags of maize, 30 live guinea fowl" />
+        </div>
+        <div class="field">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" name="message" required placeholder="Delivery location, dates, or any questions"></textarea>
+          <span class="err" data-err="message" aria-live="polite"></span>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="f-company">Company</label>
+          <input id="f-company" name="company" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="form-status" data-form-status role="status" hidden></div>
+        <div><button class="btn btn-primary" type="submit">{site.formEndpoint ? 'Send message' : 'Send via WhatsApp'}</button></div>
+        {!site.formEndpoint && site.preview && (
+          <p class="form-note"><span class="tbc">Preview: the form opens WhatsApp until an email form service is connected.</span></p>
+        )}
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { initContactForm } from '@/scripts/contact-form';
+  initContactForm();
+</script>

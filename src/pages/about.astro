@@ -1,0 +1,86 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import PhotoSlot from '@/components/PhotoSlot.astro';
+import Tbc from '@/components/Tbc.astro';
+import CtaPanel from '@/components/CtaPanel.astro';
+import Icon from '@/components/Icon.astro';
+import { story, mission, values, founder, whyFoodSecurity, supplyChain } from '@/data/site';
+---
+<Base title="About Us" description="The story, mission and team behind AgriGuard Solutions, a grain aggregation and guinea fowl business building a food secure future.">
+  <PageHero
+    eyebrow="About us"
+    title="We make sure good harvests reach the people who need them"
+    lede="AgriGuard Solutions connects smallholder farmers to reliable markets, cuts post-harvest losses, and raises healthy guinea fowl."
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="stack">
+        <span class="eyebrow">Our story</span>
+        <h2>Why AgriGuard started</h2>
+        <div class="prose">
+          {story.map((p) => <p><Tbc text={p} /></p>)}
+        </div>
+      </div>
+      <PhotoSlot label="Our team at the warehouse" ratio="4 / 3" />
+    </div>
+  </section>
+
+  <section class="section white">
+    <div class="wrap">
+      <div class="duo">
+        <div><span class="eyebrow">Our mission</span><p>{mission.mission}</p></div>
+        <div><span class="eyebrow">Our vision</span><p>{mission.vision}</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we stand for</span>
+        <h2>Our values</h2>
+      </div>
+      <div class="ruled">
+        {values.map((v) => <div><h3>{v.title}</h3><p>{v.body}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section farmer on-dark">
+    <div class="wrap farmer-grid">
+      <div class="stack">
+        <span class="eyebrow">Why it matters</span>
+        <h2>Food security starts after the harvest</h2>
+        <p><Tbc text={whyFoodSecurity} /></p>
+      </div>
+      <ul class="checks">
+        {supplyChain.map((s) => <li><Icon name="check" /><span><b>{s.title}.</b> <Tbc text={s.body} /></span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Leadership</span>
+        <h2>Meet the founder</h2>
+      </div>
+      <div class="founder">
+        <PhotoSlot label={founder.photo.label} src={founder.photo.src} ratio="4 / 5" />
+        <div class="stack">
+          <h3 style="font-size:var(--step-2)">{founder.name}</h3>
+          <span class="eyebrow" style="color:var(--ink-2)">{founder.role}</span>
+          <div class="prose">{founder.bio.map((p) => <p><Tbc text={p} /></p>)}</div>
+          <blockquote class="quote"><Tbc text={founder.quote} /></blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaPanel
+    title="Partner with AgriGuard"
+    body="We work with buyers, input suppliers, NGOs and investors who share our goal of a food secure future. Tell us how you would like to work together."
+  />
+</Base>

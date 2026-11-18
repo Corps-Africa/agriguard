@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { site } from '@/data/site';
+
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="site-header">
+  <nav class="nav wrap" aria-label="Main" data-nav>
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <img src="/images/logo-emblem.webp" alt="" width="80" height="46" />
+      <span class="brand-name">AgriGuard<small>SOLUTIONS</small></span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      {site.nav.map((item) => (
+        <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+      ))}
+      <li class="nav-links-cta"><WhatsAppButton message="Hello AgriGuard, I'd like to place an order.">Order on WhatsApp</WhatsAppButton></li>
+    </ul>
+    <WhatsAppButton class="nav-cta" message="Hello AgriGuard, I'd like to place an order.">Order on WhatsApp</WhatsAppButton>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" data-menu-btn>
+      <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+      <span class="sr-only">Menu</span>
+    </button>
+  </nav>
+</header>
+
+<script>
+  import { initNav } from '@/scripts/nav';
+  initNav();
+</script>
