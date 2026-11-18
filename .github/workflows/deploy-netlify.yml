@@ -1,0 +1,73 @@
+# Builds the site on GitHub and uploads it to Netlify.
+# Needed because Netlify's free plan won't build private repos owned by an organisation,
+# but it does accept sites that are built elsewhere and uploaded.
+#
+# One-time setup (repo Settings → Secrets and variables → Actions → New repository secret):
+#   NETLIFY_AUTH_TOKEN  Netlify → User settings → Applications → Personal access tokens → New access token
+#   NETLIFY_SITE_ID     Netlify → your site → Site configuration → Project ID
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: netlify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Type-checks, builds to dist/ and lists remaining placeholders.
+      - run: npm run build
+
+      - name: Deploy (production on main, draft preview on pull requests)
+        id: deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          DEPLOY_MESSAGE: ${{ github.event.head_commit.message || github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::error::Add the NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID repository secrets (see the top of this file)."
+            exit 1
+          fi
+          if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+            FLAGS="--prod"
+          else
+            FLAGS="--alias pr-$PR_NUMBER"
+          fi
+          npx --yes netlify-cli@17.38.1 deploy --dir=dist --no-build $FLAGS \
+            --message "$DEPLOY_MESSAGE" \
+            --json > deploy.json
+          URL=$(node -e "const d=require('./deploy.json'); console.log(d.url || d.deploy_url)")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "### Deployed to Netlify: $URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment preview link on the pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Preview deployed: ${{ steps.deploy.outputs.url }}`,
+            });

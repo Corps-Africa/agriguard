@@ -50,13 +50,23 @@ Layout code doesn't need to change to update content.
 3. Set the real domain in `site.url` (`src/data/site.ts`) and `site` (`astro.config.ts`).
 4. Deploy (below), connect the domain, then add the business to Google Business Profile.
 
-## Hosting
+## Hosting (Netlify)
 
-The `dist/` folder is a plain static site. Recommended free options:
+Netlify's free plan won't build private repos owned by an organisation, so the site is built
+on GitHub by `.github/workflows/deploy-netlify.yml` and uploaded to Netlify.
+Pushes to `main` go live; pull requests get their own preview link.
 
-- **Netlify** or **Cloudflare Pages**: connect the Git repo, build command `npm run build`,
-  output directory `dist`.
-- Any shared host: upload the contents of `dist/`.
+One-time setup:
+
+1. Create the Netlify site by drag-and-drop: run `npm run build` and drop the `dist/` folder
+   (or a zip of its contents) on https://app.netlify.com/drop. Don't link the site to the Git repo.
+2. In Netlify, copy the site's **Project ID** (Site configuration → General) and create a
+   **personal access token** (User settings → Applications).
+3. In GitHub, add both as repository secrets (Settings → Secrets and variables → Actions):
+   `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN`.
+4. Re-run the "Deploy to Netlify" workflow from the Actions tab, or push a commit.
+
+The `dist/` folder is a plain static site, so any static host works too.
 
 The client pays for the domain (e.g. `agriguardsolutions.com` or a `.com.gh`), around
 USD 10–20/year for a .com.
